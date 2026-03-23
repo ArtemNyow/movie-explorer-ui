@@ -10,7 +10,7 @@ const logger = {
 };
 
 const httpLink = new HttpLink({
-  uri: "/graphql",
+  uri: import.meta.env.VITE_GRAPHQL_URL || "/graphql",
   credentials: "same-origin",
 });
 
@@ -27,4 +27,7 @@ export const apolloClient = new ApolloClient({
   },
 });
 
-logger.info("Apollo Client initialized with endpoint: /graphql");
+logger.info(
+  "Apollo Client initialized with endpoint:",
+  import.meta.env.VITE_GRAPHQL_URL || "/graphql",
+);

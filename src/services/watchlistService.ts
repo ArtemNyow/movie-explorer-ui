@@ -1,6 +1,6 @@
-import { Movie, Watchlist } from '../types/index';
+import { Movie, Watchlist } from "../types/index";
 
-const WATCHLIST_KEY = 'movie-explorer-watchlist';
+const WATCHLIST_KEY = "movie-explorer-watchlist";
 
 export const watchlistService = {
   get: (): Watchlist => {
@@ -8,7 +8,7 @@ export const watchlistService = {
       const saved = localStorage.getItem(WATCHLIST_KEY);
       return saved ? JSON.parse(saved) : {};
     } catch (error) {
-      console.error('Failed to load watchlist from localStorage', error);
+      console.error("Failed to load watchlist from localStorage", error);
       return {};
     }
   },
@@ -18,9 +18,8 @@ export const watchlistService = {
       const watchlist = watchlistService.get();
       watchlist[movie.id] = movie;
       localStorage.setItem(WATCHLIST_KEY, JSON.stringify(watchlist));
-      console.log(`[WATCHLIST] Added: ${movie.title}`);
     } catch (error) {
-      console.error('Failed to add movie to watchlist', error);
+      console.error("Failed to add movie to watchlist", error);
     }
   },
 
@@ -29,9 +28,8 @@ export const watchlistService = {
       const watchlist = watchlistService.get();
       delete watchlist[movieId];
       localStorage.setItem(WATCHLIST_KEY, JSON.stringify(watchlist));
-      console.log(`[WATCHLIST] Removed: ${movieId}`);
     } catch (error) {
-      console.error('Failed to remove movie from watchlist', error);
+      console.error("Failed to remove movie from watchlist", error);
     }
   },
 
@@ -48,9 +46,8 @@ export const watchlistService = {
   clear: (): void => {
     try {
       localStorage.removeItem(WATCHLIST_KEY);
-      console.log('[WATCHLIST] Cleared');
     } catch (error) {
-      console.error('Failed to clear watchlist', error);
+      console.error("Failed to clear watchlist", error);
     }
   },
 };

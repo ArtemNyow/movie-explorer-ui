@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
-import { useQuery } from '@apollo/client';
-import { SEARCH_QUERY } from '../../graphql/queries';
-import { Movie } from '../../types/index';
-import styles from './SearchBar.module.css';
+import { useEffect, useRef, useState } from "react";
+import { useQuery } from "@apollo/client";
+import { SEARCH_QUERY } from "../../graphql/queries";
+import { Movie } from "../../types/index";
+import styles from "./SearchBar.module.css";
 
 interface SearchBarProps {
   onResults: (results: Movie[], totalPages: number) => void;
@@ -11,17 +11,16 @@ interface SearchBarProps {
 }
 
 export function SearchBar({ onResults, onLoading, onError }: SearchBarProps) {
-  const [query, setQuery] = useState('');
-  const [debouncedQuery, setDebouncedQuery] = useState('');
+  const [query, setQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const { data, loading, error } = useQuery(SEARCH_QUERY, {
     variables: { query: debouncedQuery, page: 1 },
-    skip: debouncedQuery.trim() === '',
+    skip: debouncedQuery.trim() === "",
     pollInterval: 0,
   });
 
-  // Debounce query input
   useEffect(() => {
     if (debounceTimerRef.current) {
       clearTimeout(debounceTimerRef.current);
@@ -36,9 +35,8 @@ export function SearchBar({ onResults, onLoading, onError }: SearchBarProps) {
         clearTimeout(debounceTimerRef.current);
       }
     };
-  }, [query]); // Only depend on query, not on callbacks
+  }, [query]);
 
-  // Handle empty query - clear results
   useEffect(() => {
     if (!query.trim()) {
       onResults([], 0);
@@ -46,22 +44,19 @@ export function SearchBar({ onResults, onLoading, onError }: SearchBarProps) {
     }
   }, [query, onResults, onError]);
 
-  // Handle loading state
   useEffect(() => {
     onLoading(loading);
   }, [loading, onLoading]);
 
-  // Handle error state
   useEffect(() => {
     if (error) {
-      const errorMsg = error.message || 'Failed to search movies';
+      const errorMsg = error.message || "Failed to search movies";
       onError(errorMsg);
     } else if (!loading) {
       onError(null);
     }
   }, [error, loading, onError]);
 
-  // Handle data results
   useEffect(() => {
     if (data?.search) {
       onResults(data.search.results, data.search.totalPages);

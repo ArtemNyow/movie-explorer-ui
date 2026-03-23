@@ -1,17 +1,17 @@
-import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client';
+import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
 
 const logger = {
   info: (message: string, data?: unknown) => {
-    console.log(`[APOLLO] ${message}`, data || '');
+    console.log(`[APOLLO] ${message}`, data || "");
   },
   error: (message: string, error?: unknown) => {
-    console.error(`[APOLLO ERROR] ${message}`, error || '');
+    console.error(`[APOLLO ERROR] ${message}`, error || "");
   },
 };
 
 const httpLink = new HttpLink({
-  uri: '/graphql',
-  credentials: 'same-origin',
+  uri: "/graphql",
+  credentials: "same-origin",
 });
 
 export const apolloClient = new ApolloClient({
@@ -19,13 +19,12 @@ export const apolloClient = new ApolloClient({
   cache: new InMemoryCache(),
   defaultOptions: {
     watchQuery: {
-      errorPolicy: 'all',
+      errorPolicy: "all",
     },
     query: {
-      errorPolicy: 'all',
+      errorPolicy: "all",
     },
   },
 });
 
-// Log Apollo client initialization
-logger.info('Apollo Client initialized with endpoint: /graphql');
+logger.info("Apollo Client initialized with endpoint: /graphql");

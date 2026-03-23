@@ -1,9 +1,9 @@
-import { useState, useEffect, useCallback } from 'react';
-import { SearchBar } from '../components/SearchBar/SearchBar';
-import { MovieGrid } from '../components/MovieGrid/MovieGrid';
-import { Movie } from '../types/index';
-import { watchlistService } from '../services/watchlistService';
-import styles from './SearchPage.module.css';
+import { useState, useEffect, useCallback } from "react";
+import { SearchBar } from "../components/SearchBar/SearchBar";
+import { MovieGrid } from "../components/MovieGrid/MovieGrid";
+import { Movie } from "../types/index";
+import { watchlistService } from "../services/watchlistService";
+import styles from "./SearchPage.module.css";
 
 export function SearchPage() {
   const [results, setResults] = useState<Movie[]>([]);
@@ -11,13 +11,12 @@ export function SearchPage() {
   const [error, setError] = useState<string | null>(null);
   const [watchlistIds, setWatchlistIds] = useState<Set<number>>(new Set());
 
-  // Load watchlist on mount
   useEffect(() => {
     const watchlist = watchlistService.getAll();
     setWatchlistIds(new Set(watchlist.map((m) => m.id)));
   }, []);
 
-  const handleSearchResults = useCallback((newResults: Movie[], totalPages: number) => {
+  const handleSearchResults = useCallback((newResults: Movie[]) => {
     setResults(newResults);
   }, []);
 
